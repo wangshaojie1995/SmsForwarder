@@ -87,6 +87,7 @@ import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.Calendar
 import java.util.Date
 
 @Page(name = "转发规则·编辑器")
@@ -165,9 +166,6 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.rbCallType.visibility = View.GONE
                 binding!!.rbContent.visibility = View.GONE
                 binding!!.tvMuRuleTips.setText(R.string.mu_rule_app_tips)
-                binding!!.btInsertExtra.visibility = View.GONE
-                binding!!.btInsertSender.visibility = View.GONE
-                binding!!.btInsertContent.visibility = View.GONE
                 //初始化APP下拉列表
                 initAppSpinner()
                 //监听已安装App信息列表加载完成事件
@@ -182,11 +180,6 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.rbInformContent.visibility = View.GONE
                 //binding!!.rbMultiMatch.visibility = View.GONE
                 binding!!.tvMuRuleTips.setText(R.string.mu_rule_call_tips)
-                binding!!.btInsertContent.visibility = View.GONE
-                binding!!.btInsertSenderApp.visibility = View.GONE
-                binding!!.btInsertUid.visibility = View.GONE
-                binding!!.btInsertTitleApp.visibility = View.GONE
-                binding!!.btInsertContentApp.visibility = View.GONE
 
                 //通话类型：1.来电挂机 2.去电挂机 3.未接来电 4.来电提醒 5.来电接通 6.去电拨出
                 binding!!.spCallType.setItems(CALL_TYPE_MAP.values.toList())
@@ -209,12 +202,11 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 binding!!.rbPackageName.visibility = View.GONE
                 binding!!.rbUid.visibility = View.GONE
                 binding!!.rbInformContent.visibility = View.GONE
-                binding!!.btInsertSenderApp.visibility = View.GONE
-                binding!!.btInsertUid.visibility = View.GONE
-                binding!!.btInsertTitleApp.visibility = View.GONE
-                binding!!.btInsertContentApp.visibility = View.GONE
             }
         }
+
+        //创建标签按钮
+        CommonUtils.createTagButtons(requireContext(), binding!!.glSmsTemplate, binding!!.etSmsTemplate, ruleType)
 
         if (ruleId <= 0) { //新增
             titleBar?.setSubTitle(getString(R.string.add_rule))
@@ -229,15 +221,6 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
 
     override fun initListeners() {
         binding!!.btnSilentPeriod.setOnClickListener(this)
-        binding!!.btInsertSender.setOnClickListener(this)
-        binding!!.btInsertContent.setOnClickListener(this)
-        binding!!.btInsertSenderApp.setOnClickListener(this)
-        binding!!.btInsertUid.setOnClickListener(this)
-        binding!!.btInsertTitleApp.setOnClickListener(this)
-        binding!!.btInsertContentApp.setOnClickListener(this)
-        binding!!.btInsertExtra.setOnClickListener(this)
-        binding!!.btInsertTime.setOnClickListener(this)
-        binding!!.btInsertDeviceName.setOnClickListener(this)
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
@@ -333,7 +316,6 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
     @SingleClick
     override fun onClick(v: View) {
         try {
-            val etSmsTemplate: EditText = binding!!.etSmsTemplate
             when (v.id) {
                 R.id.btn_silent_period -> {
                     OptionsPickerBuilder(context, OnOptionsSelectListener { _: View?, options1: Int, options2: Int, _: Int ->
@@ -347,51 +329,6 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                         it.setNPicker(mTimeOption, mTimeOption)
                         it.show()
                     }
-                }
-
-                R.id.bt_insert_sender -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_from))
-                    return
-                }
-
-                R.id.bt_insert_content -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_sms))
-                    return
-                }
-
-                R.id.bt_insert_sender_app -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_package_name))
-                    return
-                }
-
-                R.id.bt_insert_uid -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_uid))
-                    return
-                }
-
-                R.id.bt_insert_title_app -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_title))
-                    return
-                }
-
-                R.id.bt_insert_content_app -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_msg))
-                    return
-                }
-
-                R.id.bt_insert_extra -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_card_slot))
-                    return
-                }
-
-                R.id.bt_insert_time -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_receive_time))
-                    return
-                }
-
-                R.id.bt_insert_device_name -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_device_name))
-                    return
                 }
 
                 R.id.btn_test -> {
@@ -639,6 +576,21 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                 silentPeriodEnd = rule.silentPeriodEnd
                 //初始化发送通道下拉框
                 initSenderSpinner()
+
+                //绑定免打扰日期
+                val silentPeriodDays = rule.silentDayOfWeek.split(",").filter { it.isNotEmpty() }.map { it.toInt() }
+                if (silentPeriodDays.isNotEmpty()) {
+                    val map = mapOf(
+                        Calendar.SUNDAY to binding!!.sun,
+                        Calendar.MONDAY to binding!!.mon,
+                        Calendar.TUESDAY to binding!!.tue,
+                        Calendar.WEDNESDAY to binding!!.wed,
+                        Calendar.THURSDAY to binding!!.thu,
+                        Calendar.FRIDAY to binding!!.fri,
+                        Calendar.SATURDAY to binding!!.sat,
+                    )
+                    silentPeriodDays.forEach { map[it]?.isChecked = true }
+                }
             }
         })
     }
@@ -715,6 +667,19 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
         }
         val status = if (binding!!.sbStatus.isChecked) STATUS_ON else STATUS_OFF
 
+        val map = mapOf(
+            Calendar.SUNDAY to binding!!.sun,
+            Calendar.MONDAY to binding!!.mon,
+            Calendar.TUESDAY to binding!!.tue,
+            Calendar.WEDNESDAY to binding!!.wed,
+            Calendar.THURSDAY to binding!!.thu,
+            Calendar.FRIDAY to binding!!.fri,
+            Calendar.SATURDAY to binding!!.sat,
+        )
+
+        val silentDayOfWeek = map.filter { it.value.isChecked }
+            .toList().map { it.first }.joinToString(",")
+
         return Rule(
             ruleId,
             ruleType,
@@ -730,7 +695,8 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
             senderListSelected,
             senderLogic,
             silentPeriodStart,
-            silentPeriodEnd
+            silentPeriodEnd,
+            silentDayOfWeek,
         )
     }
 
@@ -852,7 +818,7 @@ class RulesEditFragment : BaseFragment<FragmentRulesEditBinding?>(), View.OnClic
                     val contactName = if (contacts.isNotEmpty()) contacts[0].name else getString(R.string.unknown_number)
                     msg.append(getString(R.string.contact)).append(contactName).append("\n")
                     msg.append(getString(R.string.mandatory_type))
-                    msg.append(CALL_TYPE_MAP[callType.toString()] ?: getString(R.string.unknown_call))
+                    msg.append(CALL_TYPE_MAP[callTypeTest.toString()] ?: getString(R.string.unknown_call))
                 } else {
                     msg.append(etContent.text.toString())
                 }

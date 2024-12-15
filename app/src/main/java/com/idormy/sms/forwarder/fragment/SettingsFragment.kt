@@ -180,12 +180,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         editAddExtraDeviceMark(binding!!.etExtraDeviceMark)
         //SIM1主键
         editAddSubidSim1(binding!!.etSubidSim1)
-        //SIM2主键
-        editAddSubidSim2(binding!!.etSubidSim2)
         //SIM1备注
         editAddExtraSim1(binding!!.etExtraSim1)
-        //SIM2备注
-        editAddExtraSim2(binding!!.etExtraSim2)
+
+        // sim 槽只有一个的时候不显示 SIM2 设置
+        if (PhoneUtils.getSimSlotCount() != 1) {
+            //SIM2主键
+            editAddSubidSim2(binding!!.etSubidSim2)
+            //SIM2备注
+            editAddExtraSim2(binding!!.etExtraSim2)
+        } else {
+            binding!!.layoutSim2.visibility = View.GONE
+        }
         //通知内容
         editNotifyContent(binding!!.etNotifyContent)
         //启用自定义模版
@@ -215,11 +221,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         binding!!.btnExtraDeviceMark.setOnClickListener(this)
         binding!!.btnExtraSim1.setOnClickListener(this)
         binding!!.btnExtraSim2.setOnClickListener(this)
-        binding!!.btInsertSender.setOnClickListener(this)
-        binding!!.btInsertContent.setOnClickListener(this)
-        binding!!.btInsertExtra.setOnClickListener(this)
-        binding!!.btInsertTime.setOnClickListener(this)
-        binding!!.btInsertDeviceName.setOnClickListener(this)
         binding!!.btnExportLog.setOnClickListener(this)
 
         //监听已安装App信息列表加载完成事件
@@ -229,7 +230,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
     @SuppressLint("SetTextI18n")
     @SingleClick
     override fun onClick(v: View) {
-        val etSmsTemplate: EditText = binding!!.etSmsTemplate
         when (v.id) {
             R.id.btn_silent_period -> {
                 OptionsPickerBuilder(context, OnOptionsSelectListener { _: View?, options1: Int, options2: Int, _: Int ->
@@ -295,37 +295,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
                 val simInfo: SimInfo? = App.SimInfoList[1]
                 binding!!.etSubidSim2.setText(simInfo?.mSubscriptionId.toString())
                 binding!!.etExtraSim2.setText(simInfo?.mCarrierName.toString() + "_" + simInfo?.mNumber.toString())
-                return
-            }
-
-            R.id.bt_insert_sender -> {
-                CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_from))
-                return
-            }
-
-            R.id.bt_insert_content -> {
-                CommonUtils.insertOrReplaceText2Cursor(etSmsTemplate, getString(R.string.tag_sms))
-                return
-            }
-
-            R.id.bt_insert_extra -> {
-                CommonUtils.insertOrReplaceText2Cursor(
-                    etSmsTemplate, getString(R.string.tag_card_slot)
-                )
-                return
-            }
-
-            R.id.bt_insert_time -> {
-                CommonUtils.insertOrReplaceText2Cursor(
-                    etSmsTemplate, getString(R.string.tag_receive_time)
-                )
-                return
-            }
-
-            R.id.bt_insert_device_name -> {
-                CommonUtils.insertOrReplaceText2Cursor(
-                    etSmsTemplate, getString(R.string.tag_device_name)
-                )
                 return
             }
 
@@ -614,9 +583,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
         if (!initViewsFinished) return
         Log.d(TAG, "restartBluetoothService, action: $action")
         val serviceIntent = Intent(requireContext(), BluetoothScanService::class.java)
-        //如果定位功能已启用，但是系统定位功能不可用，则关闭定位功能
+        //如果蓝牙功能已启用，但是系统蓝牙功能不可用，则关闭蓝牙功能
         if (SettingUtils.enableBluetooth && (!BluetoothUtils.isBluetoothEnabled() || !BluetoothUtils.hasBluetoothCapability(App.context))) {
-            XToastUtils.error(getString(R.string.toast_location_not_enabled))
+            XToastUtils.error(getString(R.string.toast_bluetooth_not_enabled))
             SettingUtils.enableBluetooth = false
             binding!!.sbEnableBluetooth.isChecked = false
             binding!!.layoutBluetoothSetting.visibility = View.GONE
@@ -991,7 +960,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //设置SIM1主键
     private fun editAddSubidSim1(etSubidSim1: EditText) {
-        etSubidSim1.setText(SettingUtils.subidSim1.toString())
+        etSubidSim1.setText("${SettingUtils.subidSim1}")
         etSubidSim1.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -1008,7 +977,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //设置SIM2主键
     private fun editAddSubidSim2(etSubidSim2: EditText) {
-        etSubidSim2.setText(SettingUtils.subidSim2.toString())
+        etSubidSim2.setText("${SettingUtils.subidSim2}")
         etSubidSim2.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
@@ -1092,6 +1061,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
 
     //设置转发信息模版
     private fun editSmsTemplate(textSmsTemplate: EditText) {
+        //创建标签按钮
+        CommonUtils.createTagButtons(requireContext(), binding!!.glSmsTemplate, textSmsTemplate, "all")
         textSmsTemplate.setText(SettingUtils.smsTemplate)
         textSmsTemplate.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -1206,6 +1177,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding?>(), View.OnClickL
             "huawei" -> getString(R.string.auto_start_huawei)
             "honor" -> getString(R.string.auto_start_honor)
             "xiaomi" -> getString(R.string.auto_start_xiaomi)
+            "redmi" -> getString(R.string.auto_start_redmi)
             "oppo" -> getString(R.string.auto_start_oppo)
             "vivo" -> getString(R.string.auto_start_vivo)
             "meizu" -> getString(R.string.auto_start_meizu)

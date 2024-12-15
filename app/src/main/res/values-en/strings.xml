@@ -1,5 +1,33 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <string name="insert_tag_from">Phone Number</string>
+    <string name="insert_tag_sms">SMS Content</string>
+    <string name="insert_tag_package_name">Package Name</string>
+    <string name="insert_tag_app_name">App Name</string>
+    <string name="insert_tag_title">Inform Title</string>
+    <string name="insert_tag_msg">Inform Content</string>
+    <string name="insert_tag_card_slot">SIM Label</string>
+    <string name="insert_tag_card_subid">SIM SubId</string>
+    <string name="insert_tag_receive_time">Receive Time</string>
+    <string name="insert_tag_current_time">Current Time</string>
+    <string name="insert_tag_device_name">Device Name</string>
+    <string name="insert_tag_app_version">SmsF Version</string>
+    <string name="insert_tag_call_type">Call Type</string>
+    <string name="insert_tag_location">Location</string>
+    <string name="insert_tag_location_longitude">Longitude</string>
+    <string name="insert_tag_location_latitude">Latitude</string>
+    <string name="insert_tag_location_address">Address</string>
+    <string name="insert_tag_battery_pct">Battery Percentage</string>
+    <string name="insert_tag_battery_status">Battery Status</string>
+    <string name="insert_tag_battery_plugged">Charging Method</string>
+    <string name="insert_tag_battery_info">Complete Battery Info</string>
+    <string name="insert_tag_battery_info_simple">Simplified Battery Info</string>
+    <string name="insert_tag_uid">UID</string>
+    <string name="insert_tag_ipv4">Public IPv4</string>
+    <string name="insert_tag_ipv6">Public IPv6</string>
+    <string name="insert_tag_ip_list">IP List</string>
+    <string name="insert_tag_net_type">Network Status</string>
+
     <string name="type_param_sms">Sms</string>
     <string name="type_param_call">Call</string>
     <string name="type_param_app">App</string>
@@ -58,6 +86,7 @@
     <string name="url_help">https://gitee.com/pp/SmsForwarder/wikis/pages</string>
     <string name="url_donation_link">https://gitee.com/pp/SmsForwarder.wiki/raw/master/%E6%89%93%E8%B5%8F%E5%90%8D%E5%8D%95.md</string>
     <string name="url_wechat_miniprogram">https://gitee.com/pp/SmsForwarder/raw/main/pic/wechat_miniprogram.jpg</string>
+    <string name="url_tips">https://gitee.com/pp/SmsForwarder.wiki/raw/master/tips_en.json</string>
 
     <string name="lab_yes">Yes</string>
     <string name="lab_no">No</string>
@@ -186,6 +215,13 @@
     <string name="switch_rule_status">Enable This Forwarding Rule</string>
     <string name="invalid_match_value">The matched value cannot be null</string>
     <string name="invalid_call_type">The call type is incorrect, you can only enter any number from 1 to 6.</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thu">THU</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="sun">SUN</string>
     <!--SenderActivity-->
     <string name="delete_sender_title">Delete confirmation</string>
     <string name="delete_sender_tips">Are you sure to delete this sender?</string>
@@ -215,8 +251,8 @@
     <string name="invalid_wework_agent">CoreID, AgentID, and Secret cannot be empty</string>
     <string name="invalid_dingtalk_inner_robot">AgentId, AppKey, AppSecret, and UserIds cannot be empty</string>
     <string name="invalid_phone_num">The receiving phone number cannot be empty</string>
-    <string name="invalid_multi_match">Malformed multiple match rule line %s</string>
-    <string name="invalid_regex_replace">Incorrect format on line %s of regex replacement</string>
+    <string name="invalid_multi_match">Malformed multiple match rule line %d</string>
+    <string name="invalid_regex_replace">Incorrect format on line %d of regex replacement</string>
     <string name="invalid_message_card">The Message Card Json is invalid.</string>
     <string name="email_host">Host</string>
     <string name="smtp_port">Port</string>
@@ -310,14 +346,6 @@
     <string name="custom_template">Custom templates</string>
     <string name="custom_template_tips">Tip: Insert labels as needed; Leave blank to apply default template</string>
     <string name="insert_sender">Phone</string>
-    <string name="insert_sender_app">PackageName</string>
-    <string name="insert_uid">UID</string>
-    <string name="insert_content">SMS</string>
-    <string name="insert_title_app">InformTitle</string>
-    <string name="insert_content_app">InformContent</string>
-    <string name="insert_extra">SIM</string>
-    <string name="insert_time">Time</string>
-    <string name="insert_device_name">Device</string>
     <string name="battery_setting">Battery Optimization</string>
     <string name="battery_setting_tips">Set it to manual management, including automatic startup, associated startup, and background running</string>
     <string name="unknown_number">Unknown Number</string>
@@ -403,6 +431,7 @@
     <string name="GotifyWebServer">WebServer</string>
     <string name="GotifyWebServerTips"><![CDATA[eg.: https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">Title Template</string>
+    <string name="auto_copy">Auto Copy</string>
     <string name="priority">Priority（1 – 9）</string>
     <string name="dingtalk_robot">Dingtalk Group Bot</string>
     <string name="dingtalk_inner_robot">Dingtalk Inner Bot</string>
@@ -446,7 +475,7 @@
     <string name="interval_label">Increasing Interval</string>
     <string name="timeout_label">Single Timeout</string>
     <string name="seconds">secs</string>
-    <string name="seconds_n">%s sec</string>
+    <string name="seconds_n">%d sec</string>
     <string name="retry_label">Max Retries</string>
     <string name="test_sender_sms">[%s] Congratulations, the sender test is successful, please continue to add forwarding rules!</string>
     <string name="test_sender_name">Test Channel</string>
@@ -512,7 +541,7 @@
     <string name="no">No</string>
     <string name="refresh">Refresh</string>
     <string name="tip_can_not_get_sim_infos">Please confirm that the app permission [Get mobile phone information] is [Always allow]</string>
-    <string name="tip_can_not_get_sim_info">The SIM card information in the card slot %s has not been obtained</string>
+    <string name="tip_can_not_get_sim_info">The SIM card information in the card slot %d has not been obtained</string>
     <string name="auto_check">Auto check</string>
     <string name="check_update">Check</string>
     <string name="join_preview_program">Join Preview Program</string>
@@ -540,6 +569,7 @@
     <string name="bark_group_tips">Opt., e.g. SmsForwarder</string>
     <string name="bark_icon">Message Icon</string>
     <string name="bark_icon_tips">Opt., fill in Url, the picture should not be too big</string>
+    <string name="bark_call">Keep Reminding</string>
     <string name="bark_sound">Message Sound</string>
     <string name="bark_sound_tips">Opt., e.g. minuet.caf</string>
     <string name="bark_badge">Message Badge</string>
@@ -606,7 +636,7 @@
     <string name="extra_app">Extra Apps</string>
     <string name="extra_app_hint">One package name per line\nEnable async loading of the App list for selection.</string>
     <string name="choose_app_hint">Drop-down selection to get package name, keyword fuzzy matching APP name</string>
-    <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(AND|OR)\\s(IS|NOTIS)\\s(PHONE_NUM|PACKAGE_NAME|MSG_CONTENT|INFORM_CONTENT|INFORM_TITLE|CARD_SLOT|CALL_TYPE)\\s(EQUALS|CONTAIN|NOTCONTAIN|STARTWITH|ENDWITH|REGEX)\\s(.*)$</string>
+    <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(AND|OR)\\s(IS|NOTIS)\\s(PHONE_NUM|PACKAGE_NAME|MSG_CONTENT|INFORM_CONTENT|INFORM_TITLE|CARD_SLOT|CALL_TYPE|UID)\\s(EQUALS|CONTAIN|NOTCONTAIN|STARTWITH|ENDWITH|REGEX)\\s(.*)$</string>
     <string name="privacy_content_1">Welcome to</string>
     <string name="privacy_content_2">We understand the importance of personal information to you and thank you for your trust in us.\n</string>
     <string name="privacy_content_3">In order to better protect your rights and comply with relevant regulatory requirements, we will pass "</string>
@@ -803,7 +833,7 @@
     <string name="debug_mode_tips">Save Log.* to file for troubleshooting; export to download directory.</string>
     <string name="optional_components">Opt.:</string>
     <string name="enable_cactus">Enable Cactus Keep Alive</string>
-    <string name="enabe_cactus_tips">Dual foreground service/JobScheduler/WorkManager/1px/silent music</string>
+    <string name="enable_cactus_tips">Dual foreground service/JobScheduler/WorkManager/1px/silent music</string>
     <string name="load_app_list">Get installed app info async at startup</string>
     <string name="load_app_list_tips">Used to speed up entering the application list/editing forwarding rules drop-down selection/replacement {{APP_NAME}}</string>
     <string name="load_app_list_toast">A type must be selected when enabling asynchronous loading of the list of installed apps</string>
@@ -940,6 +970,7 @@
     <string name="task_charge">Charge</string>
     <string name="task_lock_screen">Screen Off/On</string>
     <string name="task_lock_screen_tips">Trigger upon screen lock/unlock instantly or after a set time.</string>
+    <string name="task_charge_tips">Triggered when the charging state meets the conditions.</string>
     <string name="task_sms">SMS</string>
     <string name="task_sms_when">received SMS broadcast from %s</string>
     <string name="task_call">Call</string>
@@ -963,8 +994,8 @@
     <string name="task_rule_tips">Control the enable/disable of "Rules"</string>
     <string name="task_sender">Channels On/Off</string>
     <string name="task_sender_tips">Control the enable/disable of "Senders"</string>
-    <string name="task_alarm">Alarm</string>
-    <string name="task_alarm_tips">Alarm</string>
+    <string name="task_alarm">Alarm Reminder</string>
+    <string name="task_alarm_tips">Play music/vibrate phone to remind</string>
     <string name="task_resend">Resend Message</string>
     <string name="task_resend_tips">Resend forwarded records since N hours ago, 0=ALL</string>
     <string name="task_resend_desc" formatted="false">Resend forwarding records since %s hours ago for %s</string>
@@ -1108,16 +1139,25 @@
     <string name="chat_id">Chat ID</string>
     <string name="receive_id">Receive ID</string>
     <string name="toast_location_not_enabled">Location is not enabled, Please go to system settings and activate it.</string>
+    <string name="toast_bluetooth_not_enabled">Bluetooth is not enabled, Please go to system settings and activate it.</string>
     <string name="task_condition_check_again">Recheck when delaying execution.</string>
     <string name="task_condition_check_again_tips">When used as a triggering condition, recheck during delayed action execution.</string>
 
     <string name="start_alarm">Start Alarm</string>
     <string name="stop_alarm">Stop Alarm</string>
-    <string name="alarm_play_settings">Playback Settings</string>
+    <string name="alarm_play_settings">Play Music</string>
     <string name="alarm_music">Specify Music</string>
     <string name="alarm_music_tips">Opt., download mp3/ogg/wav to the Download directory.</string>
     <string name="alarm_volume">Alarm Volume</string>
     <string name="alarm_play_times">Play Times(0=Infinite)</string>
+    <string name="alarm_vibrate_settings">Vibrate Phone</string>
+    <string name="alarm_repeat_times">Repeat Times(0=Infinite)</string>
+    <string name="alarm_vibration_effect">Vibration Effect</string>
+    <string name="alarm_vibration_effect_tips">Syntax: =[strong], -[weak], _[no], 100ms each</string>
+    <string name="alarm_vibration_effect_1">Strong vibration</string>
+    <string name="alarm_vibration_effect_2">Weak vibration</string>
+    <string name="alarm_vibration_effect_3">No vibration</string>
+    <string name="alarm_settings_error">At least one of Play Music/Vibrate Phone must be enabled</string>
 
     <string name="invalid_tag" formatted="false">%s tag is invalid: %s</string>
     <string name="invalid_task_name">Please input task name.</string>
@@ -1140,4 +1180,5 @@
     <string name="bluetooth_not_supported">Bluetooth not supported.</string>
     <string name="start_discovery">Discovery</string>
     <string name="invalid_bluetooth_mac_address">Bluetooth Mac Address is invalid, eg. AA:BB:CC:DD:EE:FF</string>
+    <string name="auto_start_redmi"><![CDATA[RedMi: Authorization Management -> Self-Start Management -> Allow Apps to Self-Start]]></string>
 </resources>

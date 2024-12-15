@@ -4,7 +4,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.idormy.sms.forwarder.App.Companion.BARK_ENCRYPTION_ALGORITHM_MAP
@@ -124,6 +123,10 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
         }
         binding!!.spEncryptionAlgorithm.selectedIndex = 0
 
+        //创建标签按钮
+        CommonUtils.createTagButtons(requireContext(), binding!!.glTitleTemplate, binding!!.etTitleTemplate)
+        CommonUtils.createTagButtons(requireContext(), binding!!.glAutoCopyTemplate, binding!!.etAutoCopyTemplate)
+
         //新增
         if (senderId <= 0) {
             titleBar?.setSubTitle(getString(R.string.add_sender))
@@ -156,6 +159,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
                     binding!!.etServer.setText(settingVo.server)
                     binding!!.etGroup.setText(settingVo.group)
                     binding!!.etIcon.setText(settingVo.icon)
+                    binding!!.sbCall.isChecked = settingVo.call == "1"
                     binding!!.etSound.setText(settingVo.sound)
                     binding!!.etBadge.setText(settingVo.badge)
                     binding!!.etUrl.setText(settingVo.url)
@@ -178,10 +182,6 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
     }
 
     override fun initListeners() {
-        binding!!.btInsertSender.setOnClickListener(this)
-        binding!!.btInsertExtra.setOnClickListener(this)
-        binding!!.btInsertTime.setOnClickListener(this)
-        binding!!.btInsertDeviceName.setOnClickListener(this)
         binding!!.btnTest.setOnClickListener(this)
         binding!!.btnDel.setOnClickListener(this)
         binding!!.btnSave.setOnClickListener(this)
@@ -191,27 +191,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
     @SingleClick
     override fun onClick(v: View) {
         try {
-            val etTitleTemplate: EditText = binding!!.etTitleTemplate
             when (v.id) {
-                R.id.bt_insert_sender -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_from))
-                    return
-                }
-
-                R.id.bt_insert_extra -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_card_slot))
-                    return
-                }
-
-                R.id.bt_insert_time -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_receive_time))
-                    return
-                }
-
-                R.id.bt_insert_device_name -> {
-                    CommonUtils.insertOrReplaceText2Cursor(etTitleTemplate, getString(R.string.tag_device_name))
-                    return
-                }
 
                 R.id.btn_test -> {
                     mCountDownHelper?.start()
@@ -281,6 +261,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
         if (!CommonUtils.checkUrl(icon, true)) {
             throw Exception(getString(R.string.invalid_bark_icon))
         }
+        val call = if (binding!!.sbCall.isChecked) "1" else "0"
         val sound = binding!!.etSound.text.toString().trim()
         val badge = binding!!.etBadge.text.toString().trim()
         val url = binding!!.etUrl.text.toString().trim()
@@ -288,6 +269,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
             throw Exception(getString(R.string.invalid_bark_url))
         }
         val title = binding!!.etTitleTemplate.text.toString().trim()
+        val autoCopy = binding!!.etAutoCopyTemplate.text.toString().trim()
         val key = binding!!.etEncryptionKey.text.toString().trim()
         val iv = binding!!.etEncryptionIv.text.toString().trim()
         if (transformation.startsWith("AES128") && key.length != 16) {
@@ -301,7 +283,7 @@ class BarkFragment : BaseFragment<FragmentSendersBarkBinding?>(), View.OnClickLi
             throw Exception(getString(R.string.bark_encryption_key_error4))
         }
 
-        return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title, transformation, key, iv)
+        return BarkSetting(server, group, icon, sound, badge, url, barkLevel, title, transformation, key, iv, call, autoCopy)
     }
 
     override fun onDestroyView() {

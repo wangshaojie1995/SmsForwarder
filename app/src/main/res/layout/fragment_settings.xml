@@ -1226,7 +1226,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/enabe_cactus_tips"
+                        android:text="@string/enable_cactus_tips"
                         android:textSize="@dimen/text_size_mini"
                         tools:ignore="SmallSp" />
 
@@ -1567,6 +1567,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_sim2"
                 style="@style/BarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1741,41 +1742,13 @@
                     android:text=""
                     tools:ignore="RtlHardcoded,SpeakableTextPresentCheck" />
 
-                <LinearLayout
+                <GridLayout
+                    android:id="@+id/gl_sms_template"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_sender"
-                        style="@style/insertButtonStyle"
-                        android:text="@string/insert_sender" />
-
-                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_content"
-                        style="@style/insertButtonStyle"
-                        android:layout_marginStart="3dp"
-                        android:text="@string/insert_content" />
-
-                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_extra"
-                        style="@style/insertButtonStyle"
-                        android:layout_marginStart="3dp"
-                        android:text="@string/insert_extra" />
-
-                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_time"
-                        style="@style/insertButtonStyle"
-                        android:layout_marginStart="3dp"
-                        android:text="@string/insert_time" />
-
-                    <com.xuexiang.xui.widget.button.shadowbutton.RippleShadowShadowButton
-                        android:id="@+id/bt_insert_device_name"
-                        style="@style/insertButtonStyle"
-                        android:layout_marginStart="3dp"
-                        android:text="@string/insert_device_name" />
-
-                </LinearLayout>
+                    android:layout_gravity="center"
+                    android:columnCount="4"
+                    android:orientation="horizontal" />
 
             </LinearLayout>
 

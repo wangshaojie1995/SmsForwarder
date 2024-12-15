@@ -1,5 +1,33 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <string name="insert_tag_from">来源号码</string>
+    <string name="insert_tag_sms">短信内容</string>
+    <string name="insert_tag_package_name">APP包名</string>
+    <string name="insert_tag_app_name">APP应用名</string>
+    <string name="insert_tag_title">通知标题</string>
+    <string name="insert_tag_msg">通知内容</string>
+    <string name="insert_tag_card_slot">卡槽备注</string>
+    <string name="insert_tag_card_subid">卡槽主键</string>
+    <string name="insert_tag_receive_time">接收时间</string>
+    <string name="insert_tag_current_time">当前时间</string>
+    <string name="insert_tag_device_name">设备名称</string>
+    <string name="insert_tag_app_version">SmsF版本</string>
+    <string name="insert_tag_call_type">通话类型</string>
+    <string name="insert_tag_location">定位信息</string>
+    <string name="insert_tag_location_longitude">定位经度</string>
+    <string name="insert_tag_location_latitude">定位维度</string>
+    <string name="insert_tag_location_address">定位地址</string>
+    <string name="insert_tag_battery_pct">电池电量</string>
+    <string name="insert_tag_battery_status">电池状态</string>
+    <string name="insert_tag_battery_plugged">充电方式</string>
+    <string name="insert_tag_battery_info">电池完整信息</string>
+    <string name="insert_tag_battery_info_simple">电池简单信息</string>
+    <string name="insert_tag_uid">用户UID</string>
+    <string name="insert_tag_ipv4">公网IPv4</string>
+    <string name="insert_tag_ipv6">公网IPv6</string>
+    <string name="insert_tag_ip_list">IP地址列表</string>
+    <string name="insert_tag_net_type">网络状态</string>
+
     <string name="type_param_sms">短信</string>
     <string name="type_param_call">通话</string>
     <string name="type_param_app">应用</string>
@@ -58,6 +86,7 @@
     <string name="url_help">https://gitee.com/pp/SmsForwarder/wikis/pages</string>
     <string name="url_donation_link">https://gitee.com/pp/SmsForwarder.wiki/raw/master/%E6%89%93%E8%B5%8F%E5%90%8D%E5%8D%95.md</string>
     <string name="url_wechat_miniprogram">https://gitee.com/pp/SmsForwarder/raw/main/pic/wechat_miniprogram.jpg</string>
+    <string name="url_tips">https://gitee.com/pp/SmsForwarder.wiki/raw/master/tips.json</string>
 
     <string name="lab_yes">是</string>
     <string name="lab_no">否</string>
@@ -187,6 +216,13 @@
     <string name="switch_rule_status">启用该条转发规则</string>
     <string name="invalid_match_value">匹配的值不可为空</string>
     <string name="invalid_call_type">通话类型不正确，只能填写1到6的任意一个数字</string>
+    <string name="mon">周一</string>
+    <string name="tue">周二</string>
+    <string name="wed">周三</string>
+    <string name="thu">周四</string>
+    <string name="fri">周五</string>
+    <string name="sat">周六</string>
+    <string name="sun">周日</string>
     <!--SenderActivity-->
     <string name="delete_sender_title">发送通道操作确认</string>
     <string name="delete_sender_tips">删除发送通道后会级联删除其相关的转发规则、转发日志的所有记录！\n\n确定删除该条发送通道?</string>
@@ -216,8 +252,8 @@
     <string name="invalid_wework_agent">企业ID、AgentID、Secret都不能为空</string>
     <string name="invalid_dingtalk_inner_robot">AgentId、AppKey、AppSecret、UserIds都不能为空</string>
     <string name="invalid_phone_num">接收手机号不能为空</string>
-    <string name="invalid_multi_match">多重匹配规则的第 %s 行格式有误</string>
-    <string name="invalid_regex_replace">正则替换内容的第 %s 行格式有误</string>
+    <string name="invalid_multi_match">多重匹配规则的第 %d 行格式有误</string>
+    <string name="invalid_regex_replace">正则替换内容的第 %d 行格式有误</string>
     <string name="invalid_message_card">自定义消息卡片Json不合法</string>
     <string name="email_host">主机</string>
     <string name="smtp_port">端口</string>
@@ -311,14 +347,6 @@
     <string name="custom_template">转发信息模版</string>
     <string name="custom_template_tips">Tip：按需插入内容标签；留空使用默认模版</string>
     <string name="insert_sender">来源号码</string>
-    <string name="insert_sender_app">APP包名</string>
-    <string name="insert_uid">UID</string>
-    <string name="insert_content">短信内容</string>
-    <string name="insert_title_app">通知标题</string>
-    <string name="insert_content_app">通知内容</string>
-    <string name="insert_extra">卡槽信息</string>
-    <string name="insert_time">接收时间</string>
-    <string name="insert_device_name">设备名称</string>
     <string name="battery_setting">忽略电池优化设置</string>
     <string name="battery_setting_tips">请设置为手动管理：允许自启动、允许关联启动、允许后台运行</string>
     <string name="unknown_number">未知号码</string>
@@ -404,6 +432,7 @@
     <string name="GotifyWebServer">WebServer</string>
     <string name="GotifyWebServerTips"><![CDATA[例：https://push.ppps.cn/message?token=<apptoken>]]></string>
     <string name="title_template">标题模板</string>
+    <string name="auto_copy">自动复制</string>
     <string name="priority">优先级（1 – 9）</string>
     <string name="dingtalk_robot">钉钉群机器人</string>
     <string name="dingtalk_inner_robot">钉钉企业机器人</string>
@@ -447,7 +476,7 @@
     <string name="interval_label">递增间隔</string>
     <string name="timeout_label">单次超时</string>
     <string name="seconds">秒</string>
-    <string name="seconds_n">%s秒</string>
+    <string name="seconds_n">%d秒</string>
     <string name="retry_label">最多重试</string>
     <string name="test_sender_sms">【%s】恭喜您，该发送通道测试成功，请继续添加转发规则！</string>
     <string name="test_sender_name">测试通道</string>
@@ -513,7 +542,7 @@
     <string name="no">No</string>
     <string name="refresh">刷新</string>
     <string name="tip_can_not_get_sim_infos">无法获取卡槽信息，请确认应用权限【获取手机信息】为【始终允许】</string>
-    <string name="tip_can_not_get_sim_info">未获取到卡槽%s中的SIM卡信息</string>
+    <string name="tip_can_not_get_sim_info">未获取到卡槽%d中的SIM卡信息</string>
     <string name="auto_check">启动时检查</string>
     <string name="check_update">检查更新</string>
     <string name="join_preview_program">加入SmsF预览体验计划</string>
@@ -541,6 +570,7 @@
     <string name="bark_group_tips">可选，例：短信转发器</string>
     <string name="bark_icon">消息图标</string>
     <string name="bark_icon_tips">可选，填写Url，图片不要太大</string>
+    <string name="bark_call">持续提醒</string>
     <string name="bark_sound">消息声音</string>
     <string name="bark_sound_tips">可选，例：minuet.caf</string>
     <string name="bark_badge">消息角标</string>
@@ -607,7 +637,7 @@
     <string name="extra_app">额外消除应用通知</string>
     <string name="extra_app_hint">一行一个包名\n开启异步加载App列表以便选择</string>
     <string name="choose_app_hint">下拉选择获取包名，关键字模糊匹配APP名称</string>
-    <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(并且|或者)\\s(是|不是)\\s(手机号|APP包名|短信内容|通知内容|通知标题|卡槽信息|通话类型)\\s(相等|包含|不包含|开头|结尾|正则匹配)\\s(.*)$</string>
+    <string name="regex_multi_match" tools:ignore="TypographyDashes">^\\s*(并且|或者)\\s(是|不是)\\s(手机号|APP包名|短信内容|通知内容|通知标题|卡槽信息|通话类型|UID)\\s(相等|包含|不包含|开头|结尾|正则匹配)\\s(.*)$</string>
     <string name="privacy_content_1">欢迎使用</string>
     <string name="privacy_content_2">我们深知个人信息对你的重要性，也感谢你对我们的信任。\n</string>
     <string name="privacy_content_3">为了更好地保护你的权益，同时遵守相关监管的要求，我们将通过 </string>
@@ -804,7 +834,7 @@
     <string name="debug_mode_tips">将Log.*写入文件，以便排查问题；可导出到下载目录</string>
     <string name="optional_components">可选组件：</string>
     <string name="enable_cactus">启用 Cactus 增强保活措施（会增加耗电）</string>
-    <string name="enabe_cactus_tips">双进程前台服务/JobScheduler/WorkManager/1像素/无声音乐</string>
+    <string name="enable_cactus_tips">双进程前台服务/JobScheduler/WorkManager/1像素/无声音乐</string>
     <string name="load_app_list">启动时异步获取已安装App列表</string>
     <string name="load_app_list_tips">用于加速进入应用列表/编辑转发规则下拉选择/替换{{APP_NAME}}</string>
     <string name="load_app_list_toast">开启异步获取已安装App列表时必选一个类型</string>
@@ -939,6 +969,7 @@
     <string name="task_battery">电量使用</string>
     <string name="task_battery_tips">当剩余电量满足条件时触发</string>
     <string name="task_charge">充电状态</string>
+    <string name="task_charge_tips">当充电状态满足条件时触发</string>
     <string name="task_lock_screen">锁屏解锁</string>
     <string name="task_lock_screen_tips">在屏幕锁定或解锁后立即或指定时间触发</string>
     <string name="task_sms">短信广播</string>
@@ -964,8 +995,8 @@
     <string name="task_rule_tips">控制【转发规则】的启用/禁用</string>
     <string name="task_sender">启停通道</string>
     <string name="task_sender_tips">控制【发送通道】的启用/禁用</string>
-    <string name="task_alarm">声音警报</string>
-    <string name="task_alarm_tips">声音警报</string>
+    <string name="task_alarm">警报提醒</string>
+    <string name="task_alarm_tips">播放音乐/振动手机提醒</string>
     <string name="task_resend">重发消息</string>
     <string name="task_resend_tips">自动重发N小时以来的转发记录，0=全部</string>
     <string name="task_resend_desc" formatted="false">自动重发%s小时以来%s的转发记录</string>
@@ -1109,16 +1140,25 @@
     <string name="chat_id">Chat ID</string>
     <string name="receive_id">消息接收者ID</string>
     <string name="toast_location_not_enabled">位置服务未开启，请先前往系统设置中开启！</string>
+    <string name="toast_bluetooth_not_enabled">蓝牙服务未开启，请先前往系统设置中开启！</string>
     <string name="task_condition_check_again">延迟执行时再次校验</string>
     <string name="task_condition_check_again_tips">作为触发条件时，在延迟执行动作时再次校验是否满足</string>
 
     <string name="start_alarm">启动警报</string>
     <string name="stop_alarm">停止警报</string>
-    <string name="alarm_play_settings">播放设置</string>
+    <string name="alarm_play_settings">播放音乐</string>
     <string name="alarm_music">指定音乐</string>
     <string name="alarm_music_tips">可选，下载 mp3/ogg/wav 到 Download 目录</string>
     <string name="alarm_volume">播放音量</string>
     <string name="alarm_play_times">播放次数(0=无限)</string>
+    <string name="alarm_vibrate_settings">振动手机</string>
+    <string name="alarm_repeat_times">重复次数(0=无限)</string>
+    <string name="alarm_vibration_effect">振动效果</string>
+    <string name="alarm_vibration_effect_tips">语法：=[强振动], -[弱震动], _[不振动], 每次100ms</string>
+    <string name="alarm_vibration_effect_1">强振动 100ms</string>
+    <string name="alarm_vibration_effect_2">弱振动 100ms</string>
+    <string name="alarm_vibration_effect_3">不振动 100ms</string>
+    <string name="alarm_settings_error">播放音乐/振动手机必须至少开启一个</string>
 
     <string name="invalid_tag" formatted="false">%s 标签无效：%s</string>
     <string name="invalid_task_name">请输入任务名称</string>
@@ -1141,4 +1181,5 @@
     <string name="bluetooth_not_supported">不支持蓝牙设备</string>
     <string name="start_discovery">搜索设备</string>
     <string name="invalid_bluetooth_mac_address">蓝牙设备MAC地址无效，例如：AA:BB:CC:DD:EE:FF</string>
+    <string name="auto_start_redmi"><![CDATA[红米手机：授权管理 -> 自启动管理 -> 允许应用自启动]]></string>
 </resources>

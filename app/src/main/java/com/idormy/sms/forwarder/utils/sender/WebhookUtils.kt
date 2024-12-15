@@ -91,6 +91,24 @@ class WebhookUtils {
                 Log.i(TAG, "requestUrl:$requestUrl")
             }
 
+            //通过`Content-Type=applicaton/json`指定请求体为`json`格式
+            var isJson = false
+            //通过`Content-Type=text/plain、text/html、text/css、text/javascript、text/xml`指定请求体为`文本`格式
+            var isText = false
+            var mediaType = "text/plain"
+            for ((key, value) in setting.headers.entries) {
+                if (key.equals("Content-Type", ignoreCase = true)) {
+                    if (value.contains("application/json")) {
+                        isJson = true
+                        break
+                    } else if (value.startsWith("text/")) {
+                        isText = true
+                        mediaType = value
+                        break
+                    }
+                }
+            }
+
             val request = if (setting.method == "GET" && TextUtils.isEmpty(webParams)) {
                 setting.webServer += (if (setting.webServer.contains("?")) "&" else "?") + "from=" + URLEncoder.encode(
                     from,
@@ -104,6 +122,7 @@ class WebhookUtils {
                 Log.d(TAG, "method = GET, Url = $requestUrl")
                 XHttp.get(requestUrl).keepJson(true)
             } else if (setting.method == "GET" && !TextUtils.isEmpty(webParams)) {
+                webParams = msgInfo.replaceTemplate(webParams, "", "URLEncoder")
                 webParams = webParams.replace("[from]", URLEncoder.encode(from, "UTF-8"))
                     .replace("[content]", URLEncoder.encode(content, "UTF-8"))
                     .replace("[msg]", URLEncoder.encode(content, "UTF-8"))
@@ -128,7 +147,8 @@ class WebhookUtils {
                 }
                 Log.d(TAG, "method = GET, Url = $requestUrl")
                 XHttp.get(requestUrl).keepJson(true)
-            } else if (webParams.isNotEmpty() && webParams.startsWith("{")) {
+            } else if (webParams.isNotEmpty() && (isJson || isText || webParams.startsWith("{"))) {
+                webParams = msgInfo.replaceTemplate(webParams, "", "Gson")
                 val bodyMsg = webParams.replace("[from]", from)
                     .replace("[content]", escapeJson(content))
                     .replace("[msg]", escapeJson(content))
@@ -144,10 +164,18 @@ class WebhookUtils {
                     .replace("[timestamp]", timestamp.toString())
                     .replace("[sign]", sign)
                 Log.d(TAG, "method = ${setting.method}, Url = $requestUrl, bodyMsg = $bodyMsg")
-                when (setting.method) {
-                    "PUT" -> XHttp.put(requestUrl).keepJson(true).upJson(bodyMsg)
-                    "PATCH" -> XHttp.patch(requestUrl).keepJson(true).upJson(bodyMsg)
-                    else -> XHttp.post(requestUrl).keepJson(true).upJson(bodyMsg)
+                if (isText) {
+                    when (setting.method) {
+                        "PUT" -> XHttp.put(requestUrl).keepJson(true).upString(bodyMsg, mediaType)
+                        "PATCH" -> XHttp.patch(requestUrl).keepJson(true).upString(bodyMsg, mediaType)
+                        else -> XHttp.post(requestUrl).keepJson(true).upString(bodyMsg, mediaType)
+                    }
+                } else {
+                    when (setting.method) {
+                        "PUT" -> XHttp.put(requestUrl).keepJson(true).upJson(bodyMsg)
+                        "PATCH" -> XHttp.patch(requestUrl).keepJson(true).upJson(bodyMsg)
+                        else -> XHttp.post(requestUrl).keepJson(true).upJson(bodyMsg)
+                    }
                 }
             } else {
                 if (webParams.isEmpty()) {
@@ -160,6 +188,7 @@ class WebhookUtils {
                     "PATCH" -> XHttp.patch(requestUrl).keepJson(true)
                     else -> XHttp.post(requestUrl).keepJson(true)
                 }
+                webParams = msgInfo.replaceTemplate(webParams)
                 webParams.trim('&').split("&").forEach {
                     val sepIndex = it.indexOf("=")
                     if (sepIndex != -1) {
